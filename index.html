@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <title>Welcome to Jeopardy-Lite!</title>
+    <link href="css/main.css" type="text/css" rel="stylesheet"/>
+  </head>
+  <body>
+    <div class="titleWrapper">
+      <a href="https://ccallahaniv.github.io/"><img class="homeLink" src="images/homeicon.png"></a>
+      <img class="logo" src="images/jeopardylogo.png">
+
+      <button id="newGame">New Game</button>
+    </div>
+
+    <div class="questionWrapper">
+      <p class="answerBox">Answer Box</p>
+      <ul>
+        <li class="questionBox" id="q1">Question A</li>
+        <li class="questionBox" id="q2">Question B</li>
+        <li class="questionBox" id="q3">Question C</li>
+      </ul>
+    </div>
+
+    <div class="gameBoardWrapper">
+      <table id="gameBoard">
+        <tr>
+          <th id="c1" class="category">Cat1</th>
+          <th id="c2" class="category">Cat2</th>
+          <th id="c3" class="category">Cat3</th>
+          <th id="c4" class="category">Cat4</th>
+        </tr>
+        <tr>
+          <td><button id="00" class="gameBtn"> </button></td>
+          <td><button id="10" class="gameBtn"> </button></td>
+          <td><button id="20" class="gameBtn"> </button></td>
+          <td><button id="30" class="gameBtn"> </button></td>
+        </tr>
+        <tr>
+          <td><button id="01" class="gameBtn"> </button></td>
+          <td><button id="11" class="gameBtn"> </button></td>
+          <td><button id="21" class="gameBtn"> </button></td>
+          <td><button id="31" class="gameBtn"> </button></td>
+        </tr>
+        <tr>
+          <td><button id="02" class="gameBtn"> </button></td>
+          <td><button id="12" class="gameBtn"> </button></td>
+          <td><button id="22" class="gameBtn"> </button></td>
+          <td><button id="32" class="gameBtn"> </button></td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="userWrapper">
+      <p class="userName">User Name</p>
+      <p class="userScore">User Score</p>
+    </div>
+    <script src="js/library.js"></script>
+  <script src="js/jeopardy.js"></script>
+  </body>
+
+</html>

@@ -1,0 +1,77 @@
+/*
+*Stylesheet for CodeFellows codechallenge, Jeopardy-Lite
+*/
+
+body{
+  margin: 0;
+  padding: 0;
+  background-color: #4d79ff;
+}
+
+.titleWrapper{
+  background-color: #0040ff;
+  width: 100%;
+  padding-bottom: 10px;
+}
+
+.homeLink{
+  margin-top: 20px;
+  height: 36px;
+  width: 36px;
+  float: left;
+}
+
+.logo{
+  display: block;
+  margin: auto;
+  margin-top: -20px;
+  max-width: 300px;
+}
+
+.questionWrapper{
+  margin: auto;
+  margin-top: 20px;
+  width: 600px;
+  border: 1px solid;
+}
+
+.answerBox{
+  border-bottom: 1px solid;
+}
+
+.gameBoardWrapper{
+  display: block;
+  margin: auto;
+  margin-top: 20px;
+}
+
+#gameBoard{
+  margin: auto;
+}
+
+td{
+  width: 60px;
+  height: 60px;
+  padding: 4px;
+}
+
+.gameBtn{
+  background-color: #0040ff;
+  color: white;
+  height: 100%;
+  width: 100%;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+  border-radius: 6px;
+}
+
+.gameBtn:hover{
+  background-color: #1a1aff;
+}
+
+.userWrapper{
+  width: 250px;
+  margin: auto;
+  margin-top: 20px;
+}
