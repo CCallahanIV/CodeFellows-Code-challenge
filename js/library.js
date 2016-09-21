@@ -18,9 +18,9 @@ var sports = {
     "points":600},
   "a3": {
     "answer":"The Rose Bowl is located in this city.",
-    "1":"What is Pasadena, CA?",
-    "2":"What is San Francisco, CA?",
-    "3":"What is Portland, OR?",
+    "q1":"What is Pasadena, CA?",
+    "q2":"What is San Francisco, CA?",
+    "q3":"What is Portland, OR?",
     "correct":"q1",
     "points":1000}
 };
