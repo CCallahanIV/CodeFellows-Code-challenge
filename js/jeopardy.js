@@ -9,6 +9,13 @@ function newGame(){
   localStorage.clear();
   newUser();
 
+  //Declare variable to track state of game board.  Must be stored locally to ensure game board state survives page refresh.
+  var boardState = [
+    [true, true, true, true],
+    [true, true, true, true],
+    [true, true, true, true]];
+  localStorage.setItem("boardState", JSON.stringify(boardState));
+
   var userScore = 0;
   localStorage.setItem("userScore", userScore);
 
@@ -27,21 +34,33 @@ function newGame(){
 }
 
 function loadAnswer(e){
-  var points = e.target.textContent;
-  console.log(points);
+  var id = e.target.getAttribute('id');
+  var cat = categories[Number(id.charAt(0))];
+  var aBox = document.getElementsByClassName("answerBox")[0];
 
-  clearBtn(e);
-  var id = e.target.getAttribute('id').split("");
-  console.log(id);
-  var cat = categories[Number(id[0])];
-  console.log(cat);
-//  var aBox = document.getElementsByClassName("answerBox")[0];
-//  aBox.textContent=answer;
+  clearBtn(e, id);
+
+  aBox.innerHTML=cat.a1.answer;
+
+  for(var i=0; i<3; i++){
+    var ind = "q"+(i+1);
+    var question = document.getElementById(ind);
+    var qtext = cat.a1[ind];
+    question.innerHTML=qtext;
+  }
 }
 
-function clearBtn(e){
+function checkQuestion(e){
+  var id = e.target.getAttribute('id');
+  if id = 
+}
+
+function clearBtn(e, id){
   e.target.textContent=" ";
 }
+
+var elQBtn = document.getElementById("qList");
+elQBtn.addEventListener('click', function(e) { checkQuestion(e) }, false);
 
 var elBtn = document.getElementById("gameBoard")
 elBtn.addEventListener('click', function(e) { loadAnswer(e) }, false);

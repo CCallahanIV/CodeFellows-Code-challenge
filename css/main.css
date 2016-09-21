@@ -70,6 +70,27 @@ td{
   background-color: #1a1aff;
 }
 
+ul{
+  list-style-type: none;
+  margin-left: -10px;
+}
+
+.questionBox{
+  padding: 4px;
+  margin-bottom: 4px;
+  background-color: #0040ff;
+  color: white;
+  width: 92%;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+  border-radius: 6px;
+}
+
+.questionBox:hover{
+  background-color: #1a1aff;
+}
+
 .userWrapper{
   width: 250px;
   margin: auto;
