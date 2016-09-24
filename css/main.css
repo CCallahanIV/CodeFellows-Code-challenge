@@ -90,6 +90,30 @@ ul{
   background-color: #1a1aff;
 }
 
+.questionCorrect{
+  padding: 4px;
+  margin-bottom: 4px;
+  background-color: #00b300;
+  color: white;
+  width: 92%;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+  border-radius: 6px;
+}
+
+.questionWrong{
+  padding: 4px;
+  margin-bottom: 4px;
+  background-color: #ff0000;
+  color: white;
+  width: 92%;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+  border-radius: 6px;
+}
+
 .userWrapper{
   width: 250px;
   margin: auto;

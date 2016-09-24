@@ -1,3 +1,4 @@
+
 //This is the main javascript file for the functionality of the jeopardy app.
 
 localStorage.clear();
@@ -52,18 +53,30 @@ function newGame(){
   writeGameBoard();
 };
 
-//Main game function - asking and answering questions
+//write answer and questions
 function game(e){
   var id = e.target.getAttribute('id');
   var cat = categories[Number(id.charAt(0))];
   var ans = "a"+(Number(id.charAt(1))+1);
+  //Display Answer in answer box
+  var elaBox = document.getElementsByClassName("answerBox")[0];
+
+  if(elaBox.getAttribute("isJAnswerable")==='false'){
+    window.alert("Please select a game tile");
+    return;
+  }
+  var boardState = JSON.parse(localStorage.getItem("boardState"));
+  if(boardState[Number(id.charAt(1))][Number(id.charAt(0))]===""){
+    window.alert("Already chose this one, please select another.");
+    return;
+  }
 
   //Clear Game Board Button and display answer
   clearBtn(e);
 
-  //Display Answer in answer box
-  var elaBox = document.getElementsByClassName("answerBox")[0];
+
   elaBox.innerHTML=cat[ans].answer;
+	elaBox.setAttribute('data',id);
 
   //Display Questions
   for(var i=0; i<3; i++){
@@ -71,23 +84,10 @@ function game(e){
     var question = document.getElementById(ind);
     var qtext = cat[ans][ind];
     question.innerHTML=qtext;
+    question.setAttribute('class','questionBox');
   }
-
-  //Create event listener for clicking on question box.
-  elqList = document.getElementById("qList");
-  elqList.addEventListener('click', function(choice){
-    var points = 0;
-    var choiceID = choice.target.getAttribute('id');
-    if(choiceID == cat[ans].correct){
-      console.log(choiceID + "correct!");
-      points = cat[ans].points;
-    } else {
-      console.log(choiceID + "incorrect");
-      points = -(cat[ans].points);
-    }
-    updateScore(points);
-  }, false);
-
+  elaBox.setAttribute("isJQuestionable","true");
+  elaBox.setAttribute("isJAnswerable","false");
 };
 
 //Function to clear game board tiles
@@ -112,10 +112,48 @@ function updateScore(points){
   elUserScore.textContent = score;
 };
 
+function checkAnswer(evt){
+	var elaBox = document.getElementsByClassName('answerBox')[0];
+	var id = elaBox.getAttribute('data');
+
+  if(elaBox.getAttribute("isJQuestionable")==='false'){
+    window.alert("Please select a question!");
+    return;
+  }
+
+	var choiceID = evt.target.getAttribute('id');
+	var cat = categories[Number(id.charAt(0))];
+	var ans = "a"+(Number(id.charAt(1))+1);
+	var points = 0;
+
+	if(choiceID == cat[ans].correct){
+		points = cat[ans].points;
+		switchQClass(true, choiceID);
+	} else {
+		points = -(cat[ans].points);
+		switchQClass(false, choiceID);
+	}
+	updateScore(points);
+  elaBox.setAttribute("isJAnswerable","true");
+  elaBox.setAttribute("isJQuestionable","false");
+};
+
+function switchQClass(correct, choiceID){
+	var elQuestion = document.getElementById(choiceID);
+	if(correct){
+		elQuestion.setAttribute("class", "questionCorrect");
+	} else {
+		elQuestion.setAttribute("class", "questionWrong");
+	}
+};
+
 window.addEventListener('load', writeGameBoard, false);
 
+var elqList = document.getElementById("qList");
+elqList.addEventListener('click', function(e) { checkAnswer(e)}, false);
+
 var elBtn = document.getElementById("gameBoard")
-elBtn.addEventListener('click', function(e) { game(e) }, false);
+elBtn.addEventListener('click', function(evt) { game(evt) }, false);
 
 var elNewGame = document.getElementById("newGame");
 elNewGame.addEventListener('click', newGame,false);
