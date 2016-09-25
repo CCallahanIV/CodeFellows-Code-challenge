@@ -48,9 +48,15 @@ body{
   margin: auto;
 }
 
-td{
-  width: 60px;
+th{
+  width: 100px;
   height: 60px;
+  padding: 4px;
+}
+
+td{
+  width: 100px;
+  height: 100px;
   padding: 4px;
 }
 
