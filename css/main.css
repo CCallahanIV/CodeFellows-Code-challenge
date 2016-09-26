@@ -40,12 +40,21 @@ body{
 }
 
 .gameBoardWrapper{
+  border: 1px solid;
   margin: auto;
   margin-top: 20px;
+  width: 80%;
+  min-width: 600px;
+}
+
+.userWrapper{
+  float: left;
+  margin-top: 80px;
+  margin-left: 80px;
 }
 
 #gameBoard{
-  margin: auto;
+  float: left;
 }
 
 th{
@@ -118,10 +127,4 @@ ul{
   border: none;
   cursor: pointer;
   border-radius: 6px;
-}
-
-.userWrapper{
-  width: 250px;
-  margin: auto;
-  margin-top: 20px;
 }

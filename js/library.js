@@ -90,7 +90,7 @@ var geography = {
     "points":200
   },
   "a1":{
-    "answer":"This country forms a /'boot/' in the Mediterranean Sea.",
+    "answer":"This country forms a \'boot\' in the Mediterranean Sea.",
     "q0":"What is Greece?",
     "q1":"What is Italy?",
     "q2":"what is Croatia?",
@@ -206,7 +206,7 @@ var politics = {
     "points":600
   },
   "a2":{
-    "answer":"This country's 2016 departure from the European Union was referred to in the media as /'Brexit/'.",
+    "answer":"This country's 2016 departure from the European Union was referred to in the media as \'Brexit\'.",
     "q0":"What is Belgium?",
     "q1":"What is Portugal?",
     "q2":"What is the United Kingdom?",

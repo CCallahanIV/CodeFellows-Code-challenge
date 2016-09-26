@@ -1,9 +1,6 @@
-
 //This is the main javascript file for the functionality of the jeopardy app.
 
 //localStorage.clear();
-
-//This function writes the gameboard on page load and checks to see if localstorage variables exist from before page refresh.
 
 var board = {
   gameState: {
@@ -16,7 +13,8 @@ var board = {
     libraryMap: [],
     selectedQ: "",
     isJAnswerable: true,
-    isJQuestionable: false
+    isJQuestionable: false,
+    finalComplete: false
   },
 
   storeGameState: function(){
@@ -76,6 +74,13 @@ var board = {
     var elaBox = document.getElementsByClassName("answerBox")[0];
     if(!(this.gameState.libraryMap.length > 0)){
       elaBox.innerHTML = "Welcome to Joepardy-Lite!"
+
+      for(var i=0; i<3;i++){
+        var ind = "q"+i;
+        var question = document.getElementById(ind);
+        question.innerHTML = "Question";
+        question.setAttribute('class','questionBox');
+      }
       return;
     }
 
@@ -121,37 +126,65 @@ var board = {
   },
 
   checkAnswer: function(){
-    console.log(this.gameState.libraryMap);
     var cat = categories[this.gameState.catArray[this.gameState.libraryMap[0]]];
     var ans = "a"+(Number(this.gameState.libraryMap[1]));
     var choiceID = "q"+(Number(this.gameState.libraryMap[2]));
 
-    var points = 0;
+    var points = cat[ans].points;
     var correct;
 
     if(choiceID == cat[ans].correct){
-      points = cat[ans].points;
       correct = true;
     } else {
-      points = -(cat[ans].points);
+      points = -(points);
       correct = false;
     }
     this.gameState.userScore += points;
     switchQClass(correct, choiceID);
+  },
+
+  checkFinalBoard: function(){
+    //reduce game board array of arrays to be able to test for "empty" state.
+    var flat = this.gameState.boardState.reduce(function(a, b) {
+      return a.concat(b);
+      }, []);
+    var reduced = flat.reduce(function(a, b) {
+      return a + b;
+      }, 0);
+    if(reduced==0){
+      return true;
+    } else {
+      return false;
+    }
+  },
+
+  //reset game state to default values (do with prototype?)
+  resetGameState: function(){
+    this.gameState = {
+        userName : "",
+        userScore: 0,
+        boardState: [[200,200,200,200],
+                      [600,600,600,600],
+                      [1000,1000,1000,1000]],
+        catArray: [],
+        libraryMap: [],
+        selectedQ: "",
+        isJAnswerable: true,
+        isJQuestionable: false,
+        finalComplete: false
+    }
   }
 
 };
 
-
+//This function calls an attempt to load gameState from local storage and then calls board object functions to write to the game board.
 function writeGameBoard(){
-
   board.loadGameState();
   board.writeUserName();
   board.writeUserScore();
   board.writeCats();
   board.writeBoard();
   board.writeAnswerAndQs();
-
 };
 
 function newUser(){
@@ -159,25 +192,31 @@ function newUser(){
   board.writeUserName();
 };
 
+//handler for new game event: clears local storage, generates new random category array, prompts for new user name, and writes out the gameboard.
 function newGame(){
   localStorage.clear();
-
+  board.resetGameState();
   board.genCatArray();
+  board.gameState.finalComplete = false;
   newUser();
   writeGameBoard();
-  console.log(board.gameState.catArray);
-
 };
 
-//write answer and questions
+//Handler for answer select event
 function selectAnswer(e){
-
+  //Check for disqualifying game states
+  if(board.gameState.finalComplete){
+    window.alert("Game over, thank you for playing!");
+    board.gameState.isJQuestionable = false;
+    return;
+  }
   if(board.gameState.isJAnswerable === false){
     window.alert("Please select a question!");
     return;
   }
   var id = e.target.getAttribute('id');
 
+  //Map ans id's to library map in case of page refresh.
   board.gameState.libraryMap=[];
   board.gameState.libraryMap[0]=Number(id.charAt(0));
   board.gameState.libraryMap[1]=Number(id.charAt(1));
@@ -197,21 +236,40 @@ function clearBtn(e){
   }
   e.target.textContent=" ";
   board.gameState.boardState[Number(id.charAt(1))][Number(id.charAt(0))] = "";
+  console.log(board.gameState.boardState);
 };
 
+//Handler for question select event
 function selectQuestion(evt){
+  //Check for disqualifying game states
   if(board.gameState.isJQuestionable===false){
     window.alert('Please select an Answer');
     return;
   }
+  if(board.gameState.finalComplete){
+    window.alert("Game over, thank you for playing!");
+    board.gameState.isJQuestionable = false;
+    return;
+  }
 
+  //extract selected question id and store in map in case of page refresh
 	var choiceID = evt.target.getAttribute('id');
-  console.log(choiceID);
   board.gameState.libraryMap[2] = Number(choiceID.charAt(1));
+
   board.checkAnswer();
   board.gameState.isJAnswerable = true;
   board.gameState.isJQuestionable = false;
   board.writeUserScore();
+
+  //Check if the board is empty to activate end-game state.
+  if(board.checkFinalBoard()){
+    window.alert("Game over, thank you for playing! Your final score is: "+ board.gameState.userScore);
+    board.gameState.finalComplete = true;
+
+    //Not working... why?
+    elBtn.removeEventListener('click',function(e){selectAnswer(e)}, false);
+    elqList.removeEventListener('click',function(evt) { selectQuestion(evt)}, false);
+  }
 };
 
 function switchQClass(correct, choiceID){
@@ -225,8 +283,10 @@ function switchQClass(correct, choiceID){
 
 function storeState(){
   board.storeGameState();
-}
+};
 
+
+//All event listeners for the window.
 window.addEventListener('load', writeGameBoard, false);
 
 window.addEventListener('beforeunload', storeState, false);
